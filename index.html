@@ -2,249 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>جهات الأتصال</title>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- SheetJS (for Excel files) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📱</text></svg>">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#6366f1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-</head>
-<body>
-    <!-- ========== شاشة المصادقة ========== -->
-    <div id="auth-screen" class="auth-screen">
-        <div class="auth-container">
-            <div class="auth-header">
-                <div class="auth-logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h1 class="logo-title">جهات الاتصال</h1>
-                </div>
-                <p class="auth-subtitle">الإصدار 2026</p>
-            </div>
-            
-            <div class="auth-body">
-                <div class="password-input-wrapper">
-                    <div class="input-group">
-                        <i class="fas fa-key input-icon"></i>
-                        <input 
-                            type="password" 
-                            id="password-input"
-                            class="password-input"
-                            placeholder="أدخل كلمة المرور..."
-                            autocomplete="off"
-                            autofocus
-                        >
-                        <button class="password-toggle" type="button" id="toggle-password">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div id="auth-message" class="auth-message"></div>
-                
-                <div class="auth-actions">
-                    <button id="auth-submit" class="btn btn-primary btn-auth">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>الدخول</span>
-                    </button>
-                </div>
-                
-                <div class="auth-hint">
-                    <i class="fas fa-info-circle"></i>
-                    <small>كلمة المرور مطلوبة للوصول للتطبيق</small>
-                </div>
-            </div>
-            
-            <div class="auth-footer">
-                <div class="version">2026 ©</div>
-                <div class="security-indicator">
-                    <i class="fas fa-lock"></i>
-                    <span>مشفر</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ========== التطبيق الرئيسي ========== -->
-    <div id="app-container" class="app-container" style="display: none;">
-        <!-- Header (يختفي عند التمرير) -->
-        <header class="app-header" id="main-header">
-            <div class="header-content">
-                <div class="app-logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-address-book"></i>
-                    </div>
-                    <div>
-                        <h1 class="app-title">دليل الاتصال</h1>
-                        <p class="app-subtitle">2026</p>
-                    </div>
-                </div>
-                
-                <div class="header-actions">
-                    <button id="manual-sync" class="btn-icon sync-btn" title="مزامنة">
-                        <i class="fas fa-sync-alt"></i>
-                        <span class="badge sync-badge" id="sync-badge"></span>
-                    </button>
-                    
-                    <button id="logout-btn" class="btn-icon logout" title="خروج">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Search Bar -->
-            <div class="search-container">
-                <div class="search-wrapper">
-                    <i class="fas fa-search search-icon"></i>
-                    <input 
-                        type="text" 
-                        id="search-input"
-                        class="search-input"
-                        placeholder="بحث سريع..."
-                        autocomplete="off"
-                    >
-                    <button id="search-clear" class="search-clear" style="display: none;">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-        </header>
-        
-        <!-- Main Content -->
-        <main class="app-main">
-            <!-- Statistics Cards (مصغر وجانب بعض) -->
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="total-contacts">0</h3>
-                        <p>جهة اتصال</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="total-phones">0</h3>
-                        <p>هواتف</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="total-whatsapp">0</h3>
-                        <p>واتساب</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fab fa-telegram"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="total-telegram">0</h3>
-                        <p>تليجرام</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Contacts Container -->
-            <div class="contacts-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-address-card"></i> جهات الاتصال</h2>
-                    <div class="section-actions">
-                        <button class="sort-btn" id="sort-btn" title="ترتيب">
-                            <i class="fas fa-sort-amount-down"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Contacts Grid -->
-                <div id="contacts-container" class="contacts-grid">
-                    <div class="empty-state">
-                        <div class="empty-icon">
-                            <i class="fas fa-user-clock"></i>
-                        </div>
-                        <h3>جاري التحميل...</h3>
-                        <div class="loading-spinner"></div>
-                    </div>
-                </div>
-            </div>
-        </main>
-        
-        <!-- Footer -->
-        <footer class="app-footer">
-            <div class="footer-info">
-                <span id="contacts-count">0 جهة اتصال</span>
-                <span class="divider">•</span>
-                <span id="last-sync">تم التطوير بواسطة ابو رعد الحموي</span>
-            </div>
-        </footer>
-    </div>
-    
-    <!-- Loading Overlay -->
-    <div id="loading-overlay" class="loading-overlay">
-        <div class="loading-content">
-            <div class="loading-spinner-large"></div>
-            <div class="loading-text" id="loading-text">جاري التحميل...</div>
-        </div>
-    </div>
-    
-    <!-- Notifications Center -->
-    <div id="notification-center" class="notification-center"></div>
-    
-    <!-- Sort Options Modal -->
-    <div id="sort-modal" class="sort-modal">
-        <div class="sort-options">
-            <button data-sort="name">الاسم (أ-ي)</button>
-            <button data-sort="name-desc">الاسم (ي-أ)</button>
-            <button data-sort="date">الأحدث</button>
-            <button data-sort="category">الفئة</button>
-            <button class="close-sort">إلغاء</button>
-        </div>
-    </div>
-    
-    <!-- JavaScript -->
-    <script src="script.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>📱[جهات اتصالي] | 2026</title>
     
-    <!-- Font Awesome with local fallback -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <!-- Local fonts fallback -->
-    <link rel="preload" href="fonts/Cairo-Regular.woff2" as="font" type="font/woff2" crossorigin>
     
     <!-- SheetJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -261,22 +23,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="جهات الاتصال">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
     
-    <!-- Splash Screen for iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <!-- Meta for Teams/Colleagues -->
-    <meta name="author" content="Team Collaboration Platform">
+    <!-- Meta Tags -->
+    <meta name="author" content="طور بواسطة THUNDER">
     <meta name="description" content="منصة إدارة جهات الاتصال للفرق المهنية - الإصدار 2026">
     <meta name="keywords" content="جهات اتصال, فريق عمل, اتصالات مهنية, إدارة فرق">
 </head>
 <body>
-    <!-- ========== AUTH SCREEN ========== -->
+    <!-- ========== شاشة المصادقة ========== -->
     <div id="auth-screen" class="auth-screen">
         <div class="auth-container">
-            <!-- Professional Company Logo -->
+            <!-- شعار الشركة -->
             <div class="company-brand">
                 <div class="brand-logo">
                     <i class="fas fa-shield-alt"></i>
@@ -286,7 +43,7 @@
                 <p class="company-tagline">THUNDER</p>
             </div>
             
-            <!-- Password Protection -->
+            <!-- حماية بكلمة المرور -->
             <div class="auth-section">
                 <div class="auth-header">
                     <i class="fas fa-lock auth-icon"></i>
@@ -331,7 +88,7 @@
                 </div>
             </div>
             
-            <!-- Footer with Team Info -->
+            <!-- تذييل بمعلومات الفريق -->
             <div class="auth-footer">
                 <div class="team-info">
                     <i class="fas fa-users"></i>
@@ -341,15 +98,15 @@
                     <span class="version">v3.0.2026</span>
                 </div>
                 <div class="copyright">
-                    © 2026 جميع الحقوق محفوظة |THUNDER
+                    © 2026 جميع الحقوق محفوظة | THUNDER
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- ========== MAIN APP ========== -->
+    <!-- ========== التطبيق الرئيسي ========== -->
     <div id="app-container" class="app-container" style="display: none;">
-        <!-- Header (Hidden on Scroll) -->
+        <!-- الهيدر -->
         <header class="app-header" id="main-header">
             <div class="header-top">
                 <div class="header-brand">
@@ -385,7 +142,7 @@
                 </div>
             </div>
             
-            <!-- Search Bar (Appears when needed) -->
+            <!-- شريط البحث -->
             <div class="search-section" id="search-section">
                 <div class="search-wrapper">
                     <i class="fas fa-search search-icon"></i>
@@ -426,9 +183,9 @@
             </div>
         </header>
         
-        <!-- Main Content -->
+        <!-- المحتوى الرئيسي -->
         <main class="app-main" id="app-main">
-            <!-- Statistics Cards (Minimal) -->
+            <!-- إحصائيات -->
             <div class="stats-overview">
                 <div class="stat-item">
                     <div class="stat-icon">
@@ -436,7 +193,7 @@
                     </div>
                     <div class="stat-details">
                         <h3 id="total-contacts">0</h3>
-                        <p>عضو في الفريق</p>
+                        <p>عضو</p>
                     </div>
                 </div>
                 
@@ -461,7 +218,7 @@
                 </div>
             </div>
             
-            <!-- Contacts Container -->
+            <!-- جهات الاتصال -->
             <section class="contacts-container">
                 <div class="section-header">
                     <h2><i class="fas fa-address-book"></i> جهات الاتصال</h2>
@@ -473,9 +230,8 @@
                     </div>
                 </div>
                 
-                <!-- Contacts List -->
+                <!-- قائمة جهات الاتصال -->
                 <div id="contacts-list" class="contacts-list">
-                    <!-- Dynamic content will be loaded here -->
                     <div class="loading-state">
                         <div class="loading-spinner"></div>
                         <p>جاري تحميل جهات الاتصال...</p>
@@ -483,17 +239,16 @@
                 </div>
             </section>
             
-            <!-- Data Source Info -->
+            <!-- معلومات مصدر البيانات -->
             <div class="data-source-info">
                 <i class="fas fa-database"></i>
-                <span id="data-source">آخر تحديث: --</span>
                 <button id="refresh-data" class="refresh-btn">
                     <i class="fas fa-redo"></i>
                 </button>
             </div>
         </main>
         
-        <!-- Quick Action Buttons -->
+        <!-- أزرار سريعة -->
         <div class="quick-actions">
             <button class="quick-btn call-btn" data-action="call" title="اتصال سريع">
                 <i class="fas fa-phone"></i>
@@ -509,7 +264,7 @@
             </button>
         </div>
         
-        <!-- Bottom Navigation (For Mobile) -->
+        <!-- التنقل السفلي -->
         <nav class="bottom-nav">
             <button class="nav-btn active" data-page="contacts">
                 <i class="fas fa-users"></i>
@@ -530,7 +285,7 @@
         </nav>
     </div>
     
-    <!-- Loading Overlay -->
+    <!-- شاشة التحميل -->
     <div id="loading-overlay" class="loading-overlay">
         <div class="loading-content">
             <div class="spinner-container">
@@ -538,14 +293,14 @@
                 <div class="spinner-ring"></div>
             </div>
             <div class="loading-text" id="loading-text">جاري التحميل...</div>
-            <div class="loading-subtext">TeamContacts v3.0</div>
+            <div class="loading-subtext">THUNDER v3.0</div>
         </div>
     </div>
     
-    <!-- Notifications -->
+    <!-- الإشعارات -->
     <div id="notification-center" class="notification-center"></div>
     
-    <!-- Sort Modal -->
+    <!-- نافذة الترتيب -->
     <div id="sort-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
